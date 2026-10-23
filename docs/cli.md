@@ -31,6 +31,7 @@ Run the program with a command (`RoutEngine.exe` on Windows, `routengine` elsewh
 ```
 curl -fsSL https://routengine.net/install.sh | sh     # or the .deb, .rpm and .tar.gz files on the release page
 brew install champdev-me/tap/routengine               # Homebrew, macOS and Linux
+sudo apt install routengine                           # or dnf, zypper: add the repository first, see the README
 routengine machine-code
 routengine license add <key>
 sudo routengine install                               # Linux: runs at boot as the systemd service "routengine"

@@ -77,7 +77,24 @@ curl -fsSL https://routengine.net/install.sh | sh -s -- --app
 
 Or download the `.dmg` from the [latest release](https://github.com/champdev-me/routengine/releases/latest). The app is not notarized by Apple, so the first time right-click it in Applications and choose **Open**.
 
-**Linux app** (window and tray icon): download the `routengine-desktop` `.deb` or `.rpm` from the [latest release](https://github.com/champdev-me/routengine/releases/latest), then:
+**Linux package managers** (updates come with your system): a signed apt, dnf and zypper repository. Debian, Ubuntu and similar:
+
+```
+curl -fsSL https://champdev-me.github.io/routengine/apt/key.gpg | sudo tee /usr/share/keyrings/routengine.gpg >/dev/null
+echo "deb [signed-by=/usr/share/keyrings/routengine.gpg] https://champdev-me.github.io/routengine/apt stable main" | sudo tee /etc/apt/sources.list.d/routengine.list
+sudo apt update && sudo apt install routengine        # routengine-desktop for the window app
+```
+
+Fedora, RHEL, Rocky, Alma:
+
+```
+sudo curl -fsSL -o /etc/yum.repos.d/routengine.repo https://champdev-me.github.io/routengine/rpm/routengine.repo
+sudo dnf install routengine                           # routengine-desktop for the window app
+```
+
+openSUSE and the repository's signing key: [https://champdev-me.github.io/routengine](https://champdev-me.github.io/routengine/).
+
+**Linux app** (window and tray icon), without a repository: download the `routengine-desktop` `.deb` or `.rpm` from the [latest release](https://github.com/champdev-me/routengine/releases/latest), then:
 
 ```
 sudo apt install ./routengine-desktop_*.deb      # Debian, Ubuntu
