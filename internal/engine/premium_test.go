@@ -30,6 +30,7 @@ func TestAnUploadLimitSlowsTheAppDownToTheLimit(t *testing.T) {
 
 	free := &AppMeter{Name: "free", via: map[string]int64{}}
 	c := dialMetered(t, b, port, Route{Adapter: "A", Meter: free})
+	go io.Copy(io.Discard, c) // the target echoes everything; unread, it fills the socket buffers and stalls the write
 	start := time.Now()
 	c.Write(data)
 	unlimited := time.Since(start)
@@ -37,6 +38,7 @@ func TestAnUploadLimitSlowsTheAppDownToTheLimit(t *testing.T) {
 	slow := &AppMeter{Name: "slow", via: map[string]int64{}}
 	slow.SetLimits(0, 1*BytesPerMbit*8) // 1 MB/s up, no limit down
 	c2 := dialMetered(t, b, port, Route{Adapter: "A", Meter: slow})
+	go io.Copy(io.Discard, c2)
 	start = time.Now()
 	c2.Write(data)
 	limited := time.Since(start)
