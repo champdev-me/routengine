@@ -1,4 +1,4 @@
-routengine
-routengine-*
+/routengine
+/routengine-*
 *.test
 .DS_Store
