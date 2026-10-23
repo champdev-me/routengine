@@ -14,7 +14,7 @@ You need 64-bit Windows 10 (version 1809 or later) or Windows 11.
 
 **macOS** (12 or later, Apple Silicon or Intel)
 
-1. Download the `.dmg` from [routengine.net](https://routengine.net) and drag RoutEngine to Applications. Or paste `curl -fsSL https://routengine.net/install.sh | sh -s -- --app` into a terminal.
+1. Download the `.dmg` from [routengine.net](https://routengine.net) and drag RoutEngine to Applications. Or paste `curl -fsSL https://routengine.net/install.sh | sh -s -- --app` into a terminal, or use Homebrew: `brew install --cask champdev-me/tap/routengine`.
 2. The first time, right-click RoutEngine and choose **Open** (see [Troubleshooting](troubleshooting.md#macos-says-it-cannot-verify-routengine)).
 3. Open it. It asks for your password once, to create the virtual adapter. Its icon appears in the menu bar.
 

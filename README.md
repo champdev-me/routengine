@@ -62,6 +62,13 @@ It is not a VPN. It does not encrypt or hide your traffic. It only chooses which
 curl -fsSL https://routengine.net/install.sh | sh
 ```
 
+**Homebrew** (macOS and Linux):
+
+```
+brew install champdev-me/tap/routengine           # command line
+brew install --cask champdev-me/tap/routengine    # the macOS app (window and menu-bar icon)
+```
+
 **macOS app** (window and menu-bar icon): paste this into a terminal.
 
 ```
