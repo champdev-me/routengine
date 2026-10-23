@@ -70,4 +70,6 @@ go test -tags nogui ./...
 
 The `nogui` tag leaves out the window and tray, which are not part of this repository. A program you build is not an official release: the licensing server does not know it, so do not install a Pro key on it.
 
+**Updates.** `routengine run` writes a line to its log when a newer version exists. It never installs anything by itself: use your package manager, Homebrew, or the download.
+
 **Limits.** On Linux a program of another user is only named when RoutEngine runs as root, which the service does. Anything that cannot be named is balanced and counted under "(unidentified)". The free edition has the same limits as the window app: 3 apps, each with a speed limit and a data cap.

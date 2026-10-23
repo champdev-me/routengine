@@ -191,7 +191,7 @@ This repository's [Issues](../../issues) are how RoutEngine problems and request
 
 ## Privacy
 
-The free edition sends no data about you. A Pro license is checked online about once a day and must be verified at least once a week. Usage statistics are off unless you turn them on, and are anonymous. Full details are in [Privacy](docs/privacy.md).
+The free edition sends no data about you beyond a daily update check (the version, your system and CPU; installs are counted without keeping IP addresses). A Pro license is checked online about once a day and must be verified at least once a week. Usage statistics are off unless you turn them on, and are anonymous. Full details are in [Privacy](docs/privacy.md).
 
 ## License
 

@@ -1,10 +1,11 @@
 # Changelog
 
-## Unreleased
+## 1.1.1
 
+- macOS, Linux and the command-line version now tell you when a newer version exists. They never install anything by themselves.
+- The update check says your operating system and CPU as well as the version, so installs can be counted without keeping IP addresses. See [Privacy](docs/privacy.md).
+- `routengine run` now sends the anonymous usage statistics when you turned them on with `routengine stats on`, like the window apps do.
 - The source of the command-line program is published in this repository under the PolyForm Noncommercial License 1.0.0.
-
-Newest first. Versions are numbered `major.minor.patch`. A lifetime Pro license covers every 1.x version.
 
 ## 1.1.0
 

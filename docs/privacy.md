@@ -8,11 +8,11 @@ RoutEngine does not look inside what your apps send or receive. It does not send
 
 ## Free edition
 
-Sends no data about you. It checks for updates by downloading a small public file (see below), and sends usage statistics only if you turn them on.
+Sends no data about you beyond a daily update check (see below). It sends usage statistics only if you turn them on.
 
 ## Update check
 
-About once a day RoutEngine downloads `https://routengine.net/update/latest.json`, a small file that names the newest version. It is signed, and a downloaded update is checked against that signature before it runs. The request is an ordinary web request and carries nothing about you or your PC.
+About once a day RoutEngine downloads `https://routengine.net/update/latest.json`, a small file that names the newest version. It is signed, and a downloaded update is checked against that signature before it runs. The request is an ordinary web request. It tells us the app version, your operating system and your CPU type, and our web server sees your IP address. We count how many installs check in each day, one per address per day, using a code that changes every day and is never stored. We do not store your IP address. On macOS, Linux and in the command-line version the check only tells you that a newer version exists; it never installs anything by itself.
 
 **Install updates automatically** in Settings is on by default and installs only while routing is off. Turn it off to be asked instead.
 

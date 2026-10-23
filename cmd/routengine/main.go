@@ -12,14 +12,18 @@ import (
 	"syscall"
 	"time"
 
+	"routengine/internal/endpoints"
 	"routengine/internal/engine"
 	"routengine/internal/icon"
 	"routengine/internal/license"
 	"routengine/internal/logx"
 	"routengine/internal/nics"
 	"routengine/internal/platform"
+	"routengine/internal/policy"
 	"routengine/internal/state"
+	"routengine/internal/telemetry"
 	"routengine/internal/tun"
+	"routengine/internal/update"
 )
 
 const usage = `RoutEngine: choose which network adapter each app uses.
@@ -370,7 +374,7 @@ func cmdRun(args []string) {
 	}
 	state.TakeMarker(c.stateDir, "off") // drop a stale marker
 
-	_, bal, err := c.boot(func() string { return "system-wide" })
+	sched, bal, err := c.boot(func() string { return "system-wide" })
 	if err != nil {
 		logx.Printf("error: %v\n", err)
 		os.Exit(1)
@@ -383,7 +387,24 @@ func cmdRun(args []string) {
 	}
 	license.Load(license.DefaultPath()) // a saved key that was changed must block this too
 	license.Logf = logx.Printf
-	go license.RunChecks(context.Background(), version, nil) // Pro starts only after the licensing server says yes
+	go license.RunChecks(context.Background(), version, nil)                       // Pro starts only after the licensing server says yes
+	go update.Notify(context.Background(), endpoints.Update, version, logx.Printf) // says when a newer version exists; installs nothing
+	// Anonymous usage statistics, only if the user ran `routengine stats on`; the window apps do the same.
+	telemetry.Logf = logx.Printf
+	go telemetry.Open(telemetry.DefaultPath()).Run(context.Background(), func() telemetry.Facts {
+		f := telemetry.Facts{App: version, Edition: "free", Adapters: len(sched.Snapshot()), Routing: true}
+		if l := license.Current(); l.Paid() {
+			f.Edition, f.License = "pro", l.ID
+		}
+		path := c.rules
+		if path == "" {
+			path = policy.DefaultPath()
+		}
+		if rules, err := policy.LoadRules(path); err == nil {
+			f.Rules = len(rules)
+		}
+		return f
+	})
 	if why := license.Tampered(); why != "" {
 		logx.Printf("error: Start is blocked. %s Open RoutEngine itself, not this command, so it can check the license, or remove the license in its Settings.\n", why)
 		os.Exit(1)
