@@ -1,8 +1,8 @@
 # Command line
 
-The installer puts `RoutEngine.exe` in `C:\Program Files\RoutEngine`. Most people only use the window. The commands below are for scripts and for checking status.
+On **Windows** the installer puts `RoutEngine.exe` in `C:\Program Files\RoutEngine`. On **macOS and Linux** the program is `routengine` (see [macOS and Linux](#macos-and-linux) below). Most people only use the window. The commands are for scripts, for servers and for checking status.
 
-Run `RoutEngine.exe` with a command:
+Run the program with a command (`RoutEngine.exe` on Windows, `routengine` elsewhere):
 
 | Command | What it does |
 | ------- | ------------ |
@@ -17,6 +17,46 @@ Run `RoutEngine.exe` with a command:
 | `autostart on`, `off`, `status` | Start the tray at sign-in. No admin prompt. |
 | `stats on`, `off`, `status` | Send anonymous usage statistics, or not. Nothing is sent until you agree. See [Privacy](privacy.md). |
 | `cleanup` | Remove leftover routes after a crash. Needs administrator rights. |
+| `license add <key>`, `status`, `remove` | Enter, check or remove the Pro license key. `add` also asks the licensing server at once. |
+| `machine-code` | Print this machine's code, to send when you buy Pro. |
+| `install`, `uninstall` | Linux: install or remove a systemd service that starts at boot. macOS: let the menu-bar app start without a password. |
 | `version` | Print the version. |
 
 `on` refuses to start routing when Start is blocked, for the reasons in [License](license.md#if-the-license-data-is-changed).
+
+## macOS and Linux
+
+`routengine` is the same engine. The command-line build has no window and no desktop libraries, so it runs on a bare server. The app packages contain the same commands.
+
+```
+curl -fsSL https://routengine.net/install.sh | sh     # or the .deb, .rpm and .tar.gz files on the release page
+routengine machine-code
+routengine license add <key>
+sudo routengine install                               # Linux: runs at boot as the systemd service "routengine"
+```
+
+**Files.** As root on Linux (`sudo`, or the service) they are in `/etc/routengine`. Otherwise they are in your config folder: `~/.config/routengine` on Linux, `~/Library/Application Support/routengine` on macOS. On macOS the app runs as root but uses your folder, so the app and the terminal agree. `ROUTENGINE_DIR` overrides all of this.
+
+| File | What it is |
+| ---- | ---------- |
+| `config.json` | The rules. Same format as `rules.json` on Windows, and it wins when both exist. |
+| `license.key` | Your Pro license key. |
+| `usage.json` | The data-used history. |
+
+**Rules.** An app is a process name (`curl`) or a full path. On macOS a name ending in `.app`, such as `Google Chrome.app`, matches every program inside that app, so a browser's helper processes follow it.
+
+```json
+{
+  "default_adapter": "eth0",
+  "rules": [
+    { "exe": "qbittorrent", "adapter": "eth1", "failover": ["default"] },
+    { "exe": "curl", "balance": ["eth0", "wlan0"] }
+  ]
+}
+```
+
+The rules file is reloaded within a second of any change. Everything else balances across all adapters, as in the window app.
+
+**The service.** `sudo routengine install` copies the program to `/usr/local/bin`, writes `/etc/systemd/system/routengine.service` and starts it. Logs: `journalctl -u routengine`. `sudo routengine uninstall` removes both and keeps `/etc/routengine`. The packages (`.deb`, `.rpm`) install the same service but do not enable it: `sudo systemctl enable --now routengine`.
+
+**Limits.** On Linux a program of another user is only named when RoutEngine runs as root, which the service does. Anything that cannot be named is balanced and counted under "(unidentified)". The free edition has the same limits as the window app: 3 apps, each with a speed limit and a data cap.

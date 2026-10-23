@@ -44,4 +44,4 @@ Pro lets an app use DNS servers of its own, a preset or ones you type, instead o
 
 ## What is not touched
 
-Only the apps in your list are moved. Windows services, other programs and your own browsing in an app you did not add keep Windows' normal choice.
+Apps you did not add are not listed, but while RoutEngine is on their new connections are shared across all your adapters, like **Use all**. Press Stop, or quit, and everything returns to the system's own choice.

@@ -4,7 +4,7 @@
 
 For personal, non-commercial use on your own PCs. It needs no key and sends nothing. Using RoutEngine for work or in a business needs a Pro license.
 
-Free includes up to 3 apps, per-app routing and fallback, VPN and Tailscale adapters, combining adapters, live speeds, today's data, a speed limit on one app and a data cap on one app.
+Free includes up to 3 apps, per-app routing and fallback, VPN and Tailscale adapters, combining adapters, live speeds, today's data, a speed limit and a data cap on each of those apps.
 
 ## Pro
 

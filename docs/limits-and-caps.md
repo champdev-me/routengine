@@ -15,10 +15,10 @@ Set a number of gigabytes **per month** or **per day**. The list shows how much 
 
 |              | Free       | Pro          |
 | ------------ | ---------- | ------------ |
-| Speed limit  | One app    | Every app    |
-| Data cap     | One app    | Every app    |
+| Speed limit  | Each of your 3 apps | Every app |
+| Data cap     | Each of your 3 apps | Every app |
 
-On Free, the first app with a limit keeps it, and the first app with a cap keeps that. Pro removes the restriction. See [License](license.md).
+On Free every app in your list of 3 can have a limit and a cap. Pro removes the 3-app limit. See [License](license.md).
 
 ## Usage
 

@@ -63,3 +63,16 @@ If the strip says your license does not cover the new version, the new version i
 ## Still stuck
 
 [Search the issues](../../../issues?q=is%3Aissue), then [open one](../../../issues/new/choose). For anything about buying or your license, email sales@routengine.net.
+
+## macOS says it cannot verify RoutEngine
+
+The Mac app is not notarized by Apple. The first time, right-click RoutEngine in Applications, choose **Open**, then **Open** again. Or remove the flag in a terminal: `xattr -dr com.apple.quarantine /Applications/RoutEngine.app`. Installing with the `curl ... | sh` command from the README does not trigger the warning.
+
+## No tray icon on Linux
+
+GNOME needs the AppIndicator extension to show tray icons. The window works without it: start RoutEngine from the applications menu, or run `routengine app`.
+
+## Linux: "needs root or CAP_NET_ADMIN"
+
+The window app needs the network capability. The `routengine-desktop` package sets it. If you installed from a tarball: `sudo setcap cap_net_admin,cap_net_raw+ep $(which routengine)`. `sudo routengine run` works without it. If `/dev/net/tun` is missing: `sudo modprobe tun`.
+
