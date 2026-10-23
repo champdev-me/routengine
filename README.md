@@ -69,7 +69,7 @@ curl -fsSL https://routengine.net/install.sh | sh -s -- --app
 
 Or download the `.dmg` from the [latest release](https://github.com/champdev-me/routengine/releases/latest). The app is not notarized by Apple, so the first time right-click it in Applications and choose **Open**.
 
-**Linux app** (window and tray icon): download the `routengine-desktop` `.deb` or `.rpm` from the [latest release](https://github.com/champdev-me/routengine/releases/latest) (ARM64 now, x86-64 soon; on x86-64 use the command line below), then:
+**Linux app** (window and tray icon): download the `routengine-desktop` `.deb` or `.rpm` from the [latest release](https://github.com/champdev-me/routengine/releases/latest), then:
 
 ```
 sudo apt install ./routengine-desktop_*.deb      # Debian, Ubuntu

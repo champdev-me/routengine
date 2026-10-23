@@ -20,7 +20,7 @@ You need 64-bit Windows 10 (version 1809 or later) or Windows 11.
 
 **Linux** (x86-64 or ARM64)
 
-1. Download the `routengine-desktop` `.deb` or `.rpm` (ARM64 now, x86-64 soon) from [routengine.net](https://routengine.net) and install it, for example `sudo apt install ./routengine-desktop_*.deb`.
+1. Download the `routengine-desktop` `.deb` or `.rpm` from [routengine.net](https://routengine.net) and install it, for example `sudo apt install ./routengine-desktop_*.deb`.
 2. Open RoutEngine from your applications menu. The package already gave it the network capability, so it runs as you and asks for nothing.
 
 On a server with no screen use the [command line](cli.md) instead.
