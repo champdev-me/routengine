@@ -1,0 +1,15 @@
+{
+  "note": "Made by server/test/interop.test.ts with a throwaway server key. Test data only.",
+  "serverPublicKey": "36cc614da2dc16e3ac452f0751964f9c3df29faeaab632d77809fec3650e1182",
+  "license": "067f93b19d05ee3c",
+  "machine": "7QK4-M2XD-9PTA",
+  "nonce": "0123456789abcdef0123456789abcdef",
+  "ok": {
+    "verdict": "eyJzdGF0dXMiOiJvayIsImxpY2Vuc2UiOiIwNjdmOTNiMTlkMDVlZTNjIiwibWFjaGluZSI6IjdRSzQtTTJYRC05UFRBIiwibm9uY2UiOiIwMTIzNDU2Nzg5YWJjZGVmMDEyMzQ1Njc4OWFiY2RlZiIsImlzc3VlZCI6MTgwMDAwMDAwMH0",
+    "sig": "lIf_W8CZu1E1azPuSVy8l0-HZs82CErvtYk7jrHeVhih0T2m6LqUjzaW2c0nptIoesxXco17eUxpMbID89-iCg"
+  },
+  "refused": {
+    "verdict": "eyJzdGF0dXMiOiJpbnZhbGlkIiwibGljZW5zZSI6IiIsIm1hY2hpbmUiOiI3UUs0LU0yWEQtOVBUQSIsIm5vbmNlIjoiMDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWYiLCJpc3N1ZWQiOjE4MDAwMDAwMDAsIm1lc3NhZ2UiOiJUaGlzIGlzIG5vdCBhIGxpY2Vuc2Uga2V5IG1hZGUgZm9yIFJvdXRFbmdpbmUuIn0",
+    "sig": "kUK7WMpzYAB-ouy8ColpiLtbXy_AgGv-V-emKAtggKBQePcolKhvK59GYG_wF5DquyfS3ig8mcGfowAht3HlDQ"
+  }
+}

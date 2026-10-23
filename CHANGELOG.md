@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- The source of the command-line program is published in this repository under the PolyForm Noncommercial License 1.0.0.
+
 Newest first. Versions are numbered `major.minor.patch`. A lifetime Pro license covers every 1.x version.
 
 ## 1.1.0

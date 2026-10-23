@@ -59,4 +59,13 @@ The rules file is reloaded within a second of any change. Everything else balanc
 
 **The service.** `sudo routengine install` copies the program to `/usr/local/bin`, writes `/etc/systemd/system/routengine.service` and starts it. Logs: `journalctl -u routengine`. `sudo routengine uninstall` removes both and keeps `/etc/routengine`. The packages (`.deb`, `.rpm`) install the same service but do not enable it: `sudo systemctl enable --now routengine`.
 
+**Build from source.** The command-line source is in this repository under the [PolyForm Noncommercial License](../LICENSE). You need Go (the version in `go.mod`); on macOS also the Xcode command line tools, because looking up which program owns a connection uses the system library.
+
+```
+go build -tags nogui -o routengine ./cmd/routengine
+go test -tags nogui ./...
+```
+
+The `nogui` tag leaves out the window and tray, which are not part of this repository. A program you build is not an official release: the licensing server does not know it, so do not install a Pro key on it.
+
 **Limits.** On Linux a program of another user is only named when RoutEngine runs as root, which the service does. Anything that cannot be named is balanced and counted under "(unidentified)". The free edition has the same limits as the window app: 3 apps, each with a speed limit and a data cap.

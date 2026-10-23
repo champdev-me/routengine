@@ -1,0 +1,10 @@
+{
+  "note": "Made by server/test/board-ui.test.ts with the admin board's signing code and a throwaway key. Test data only.",
+  "licensePublicKey": "b5ef063fc8ea65a020e0c1774c72c746526fc1013bb190b174abdbbf44952494",
+  "machine": "7QK4-M2XD-9PTA",
+  "name": "Grace Hopper",
+  "email": "grace@example.com",
+  "maxMajor": 1,
+  "id": "4242424242424242",
+  "key": "RE1.eyJpZCI6IjQyNDI0MjQyNDI0MjQyNDIiLCJuYW1lIjoiR3JhY2UgSG9wcGVyIiwiZW1haWwiOiJncmFjZUBleGFtcGxlLmNvbSIsInBsYW4iOiJwcm8iLCJpYXQiOjE4MDAwMDAwMDAsIm0iOlsiN1FLNC1NMlhELTlQVEEiXSwibXYiOjF9.nmWbQipnewXnExBk2xJ2NF0IYV5dW-nD50ZwOQE2Tb7LoC1Qlfdq5mE2ddD3D_WzO3jZQ_nUgehVbT_w-UlfCQ"
+}

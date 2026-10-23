@@ -23,7 +23,8 @@
   <a href="https://github.com/champdev-me/routengine/releases"><img src="https://img.shields.io/github/downloads/champdev-me/routengine/total" alt="Downloads"></a>
   <img src="https://img.shields.io/badge/platforms-Windows%20%7C%20macOS%20%7C%20Linux-blue" alt="Windows, macOS and Linux">
   <img src="https://img.shields.io/badge/CLI-Linux%20%7C%20macOS-informational" alt="Command line for Linux and macOS">
-  <a href="https://routengine.net/eula.txt"><img src="https://img.shields.io/badge/license-free%20for%20personal%20use-brightgreen" alt="Free for personal use"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/CLI%20source-PolyForm%20Noncommercial-blue" alt="Command-line source: PolyForm Noncommercial"></a>
+  <a href="https://github.com/champdev-me/routengine/actions/workflows/ci.yml"><img src="https://github.com/champdev-me/routengine/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
 </p>
 
 <p align="center">
@@ -132,6 +133,17 @@ Pro is ₹1,199 per PC per year, or ₹2,499 once for every 1.x version. Prices 
 
 Details, including moving a license to a new PC, are in [License](docs/license.md).
 
+## Source code
+
+The source of the **command-line program** is in this repository (`cmd/` and `internal/`), under the [PolyForm Noncommercial License 1.0.0](LICENSE): you may read it, build it, change it and use it for noncommercial purposes, such as personal use, hobby projects, research and education. Using it at work or in a business needs a Pro license. This is source-available, not an OSI open-source license. The window apps are closed source.
+
+```
+git clone https://github.com/champdev-me/routengine && cd routengine
+go build -tags nogui -o routengine ./cmd/routengine     # Linux and macOS; CGO_ENABLED=0 gives a static program on Linux
+```
+
+Official downloads are registered with the licensing server. A program you build yourself is not, so a Pro key will not work with it: use your own build with the free edition.
+
 ## Documentation
 
 | Page | What is in it |
@@ -141,7 +153,7 @@ Details, including moving a license to a new PC, are in [License](docs/license.m
 | [Limits and caps](docs/limits-and-caps.md) | Speed limits, data caps, usage history |
 | [License](docs/license.md) | Free and Pro, machine code, the weekly check, moving PCs |
 | [Privacy](docs/privacy.md) | What is sent, when, and how to turn it off |
-| [Command line](docs/cli.md) | Commands on Windows, macOS and Linux, `config.json`, the service |
+| [Command line](docs/cli.md) | Commands on Windows, macOS and Linux, `config.json`, the service, building from source |
 | [Troubleshooting](docs/troubleshooting.md) | Common problems, messages and where the log is |
 
 ## Report a problem or ask for a feature
@@ -159,7 +171,9 @@ The free edition sends no data about you. A Pro license is checked online about 
 
 ## License
 
-RoutEngine the program is closed source and licensed under its [end-user license agreement](https://routengine.net/eula.txt). The documentation, screenshots and other files in this repository are copyright RoutEngine, all rights reserved, except that you may quote and link to them when writing about RoutEngine. See [LICENSE](LICENSE).
+- The command-line source code in this repository: [PolyForm Noncommercial 1.0.0](LICENSE). Third-party components are listed in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
+- The programs you download from routengine.net (the window apps and the command-line build): the [end-user license agreement](https://routengine.net/eula.txt). The window apps are closed source.
+- The documentation and screenshots: copyright RoutEngine, all rights reserved, except that you may quote and link to them when writing about RoutEngine.
 
 <p align="center">
   <sub>Want something free and open source? <a href="https://github.com/rohit267/net-merge"><strong>net-merge</strong></a> combines all your connections into one. Same developer.</sub>
