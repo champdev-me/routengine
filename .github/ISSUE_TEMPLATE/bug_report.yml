@@ -1,0 +1,68 @@
+name: Bug report
+description: Something in RoutEngine does not work as it should.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. This page is public: do not paste license keys or machine codes, and check any log or screenshot for anything private first.
+        Questions about buying or your license: email sales@routengine.net instead.
+  - type: input
+    id: version
+    attributes:
+      label: RoutEngine version
+      description: Settings, under Updates. Or run `RoutEngine.exe version`.
+      placeholder: "1.0.0"
+    validations:
+      required: true
+  - type: input
+    id: windows
+    attributes:
+      label: Windows version
+      description: Press Win+R, type `winver`, press Enter.
+      placeholder: "Windows 11 23H2, build 22631"
+    validations:
+      required: true
+  - type: dropdown
+    id: edition
+    attributes:
+      label: Edition
+      options:
+        - Free
+        - Pro
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you saw, and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Add app ...
+        2. Choose ...
+        3. Press Start
+        4. ...
+    validations:
+      required: true
+  - type: textarea
+    id: setup
+    attributes:
+      label: Your adapters and how the app is routed
+      description: For example "Wi-Fi and a phone tether; Brave on One adapter (tether) with fallback to the default."
+  - type: textarea
+    id: log
+    attributes:
+      label: Log
+      description: The last lines of `%LocalAppData%\routengine\routengine.log`. It can contain app and adapter names, so read it first.
+      render: text
+  - type: textarea
+    id: shots
+    attributes:
+      label: Screenshots
+      description: Drag images here. Check they show nothing private.

@@ -1,0 +1,34 @@
+name: Feature request
+description: Ask for something RoutEngine does not do yet.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: Search the open issues first, and add your voice to a matching one if there is one. This page is public: do not paste license keys or machine codes.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: The situation, not the solution. For example "I want my backup software to use only the wired connection at night."
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like RoutEngine to do?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What do you do today instead?
+  - type: dropdown
+    id: edition
+    attributes:
+      label: Edition you use
+      options:
+        - Free
+        - Pro
+        - Not using it yet
+    validations:
+      required: true

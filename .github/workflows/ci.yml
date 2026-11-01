@@ -1,0 +1,16 @@
+name: CI
+on:
+  push: {branches: [main]}
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      matrix: {os: [ubuntu-latest, macos-latest]}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with: {go-version-file: go.mod}
+      - run: go vet -tags nogui ./... && go test -tags nogui ./...
+      - run: go build -tags nogui -o routengine ./cmd/routengine && ./routengine version

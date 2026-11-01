@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Buying, your license or a lost key
+    url: https://routengine.net/contact.html
+    about: Email sales@routengine.net. Do not post license keys or machine codes in public issues.
+  - name: Documentation
+    url: https://github.com/champdev-me/routengine/tree/main/docs
+    about: Getting started, routing, limits, license, privacy and troubleshooting.
