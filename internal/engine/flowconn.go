@@ -48,7 +48,7 @@ func (c *slotConn) Read(p []byte) (int, error) {
 				throttle(c.ctx, l, n) // and the app's own cap on this adapter
 			}
 		}
-		c.sl.throttle(true, n)
+		c.sl.throttle(c.ctx, true, n)
 	}
 	return n, err
 }
@@ -65,7 +65,7 @@ func (c *slotConn) Write(p []byte) (int, error) {
 			throttle(c.ctx, l, len(p))
 		}
 	}
-	n, err := c.sl.writePaced(c.TCPConn, p, false)
+	n, err := c.sl.writePaced(c.ctx, c.TCPConn, p, false)
 	c.sl.bytesOut[c.fam].Add(int64(n))
 	if c.activity != nil {
 		c.activity.bytes.Add(int64(n))
@@ -138,7 +138,7 @@ func (c *slotPacketConn) ReadFrom(p []byte) (int, net.Addr, error) {
 				throttle(c.ctx, l, n)
 			}
 		}
-		c.sl.throttlePacket(true, n)
+		c.sl.throttlePacket(c.ctx, true, n)
 	}
 	return n, a, err
 }
@@ -155,7 +155,7 @@ func (c *slotPacketConn) WriteTo(p []byte, a net.Addr) (int, error) {
 			throttle(c.ctx, l, len(p))
 		}
 	}
-	c.sl.throttlePacket(false, len(p))
+	c.sl.throttlePacket(c.ctx, false, len(p))
 	n, err := c.PacketConn.WriteTo(p, a)
 	c.sl.bytesOut[c.fam].Add(int64(n))
 	if c.m != nil {
@@ -193,7 +193,7 @@ func (b *Balancer) ListenUDP(ctx context.Context, f Family) (net.PacketConn, err
 			return nil, lastErr
 		}
 		tried[sl.key] = struct{}{}
-		lc := net.ListenConfig{Control: nics.ForceEgress(sl.Index, f == Fam6)}
+		lc := net.ListenConfig{Control: nics.ForceEgress(sl.ifIndex(), f == Fam6)}
 		pc, err := lc.ListenPacket(ctx, network, net.JoinHostPort(sl.ip(f).String(), "0"))
 		b.S.ReleaseFor(sl, f)
 		if err != nil {

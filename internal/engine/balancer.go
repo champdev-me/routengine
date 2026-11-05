@@ -150,8 +150,8 @@ func (b *Balancer) DialTCP(ctx context.Context, host string, port int) (net.Conn
 		}
 		tried[sl.key] = struct{}{}
 		d := net.Dialer{
-			LocalAddr: &net.TCPAddr{IP: sl.ip(f)},            // binding the source IP pins the flow to this NIC
-			Control:   nics.ForceEgress(sl.Index, f == Fam6), // and this forces egress even if the TUN's routes match
+			LocalAddr: &net.TCPAddr{IP: sl.ip(f)},                // binding the source IP pins the flow to this NIC
+			Control:   nics.ForceEgress(sl.ifIndex(), f == Fam6), // and this forces egress even if the TUN's routes match
 			Timeout:   b.ConnectTimeout,
 			KeepAlive: 30 * time.Second,
 		}
@@ -216,7 +216,7 @@ func pump(dst, src net.Conn, counter *atomic.Int64, sl *Slot, down bool, activit
 		if n > 0 {
 			activity.bytes.Add(int64(n))
 			counter.Add(int64(n))
-			if _, werr := sl.writePaced(dst, buf[:n], down); werr != nil {
+			if _, werr := sl.writePaced(nil, dst, buf[:n], down); werr != nil {
 				dst.Close()
 				src.Close()
 				return

@@ -172,14 +172,14 @@ func (b *Balancer) dialVia(ctx context.Context, host string, port int, rt Route)
 		}
 		d := net.Dialer{
 			LocalAddr: &net.TCPAddr{IP: sl.ip(f)},
-			Control:   nics.ForceEgress(sl.Index, f == Fam6),
+			Control:   nics.ForceEgress(sl.ifIndex(), f == Fam6),
 			Timeout:   b.ConnectTimeout,
 			KeepAlive: 30 * time.Second,
 		}
 		conn, err := d.DialContext(ctx, network, net.JoinHostPort(host, strconv.Itoa(port)))
 		if err == nil {
 			moved(rt, i, lastErr)
-			return &slotConn{TCPConn: conn.(*net.TCPConn), sl: sl, fam: f, s: b.S}, nil
+			return &slotConn{TCPConn: conn.(*net.TCPConn), sl: sl, fam: f, s: b.S, activity: b.S.track(sl, f)}, nil
 		}
 		b.S.ReleaseFor(sl, f)
 		c := classify(err)
@@ -213,13 +213,13 @@ func (b *Balancer) dialPool(ctx context.Context, host string, port int, f Family
 		tried[sl.key] = struct{}{}
 		d := net.Dialer{
 			LocalAddr: &net.TCPAddr{IP: sl.ip(f)},
-			Control:   nics.ForceEgress(sl.Index, f == Fam6),
+			Control:   nics.ForceEgress(sl.ifIndex(), f == Fam6),
 			Timeout:   b.ConnectTimeout,
 			KeepAlive: 30 * time.Second,
 		}
 		conn, err := d.DialContext(ctx, network, net.JoinHostPort(host, strconv.Itoa(port)))
 		if err == nil {
-			return &slotConn{TCPConn: conn.(*net.TCPConn), sl: sl, fam: f, s: b.S}, nil
+			return &slotConn{TCPConn: conn.(*net.TCPConn), sl: sl, fam: f, s: b.S, activity: b.S.track(sl, f)}, nil
 		}
 		b.S.ReleaseFor(sl, f)
 		c := classify(err)
@@ -250,7 +250,7 @@ func (b *Balancer) listenPool(ctx context.Context, f Family, network string, rt 
 			break
 		}
 		tried[sl.key] = struct{}{}
-		lc := net.ListenConfig{Control: nics.ForceEgress(sl.Index, f == Fam6)}
+		lc := net.ListenConfig{Control: nics.ForceEgress(sl.ifIndex(), f == Fam6)}
 		pc, err := lc.ListenPacket(ctx, network, net.JoinHostPort(sl.ip(f).String(), "0"))
 		b.S.ReleaseFor(sl, f)
 		if err != nil {
@@ -300,7 +300,7 @@ func (b *Balancer) listenUDPVia(ctx context.Context, f Family, rt Route) (net.Pa
 			lastErr = err
 			continue
 		}
-		lc := net.ListenConfig{Control: nics.ForceEgress(sl.Index, f == Fam6)}
+		lc := net.ListenConfig{Control: nics.ForceEgress(sl.ifIndex(), f == Fam6)}
 		pc, err := lc.ListenPacket(ctx, network, net.JoinHostPort(sl.ip(f).String(), "0"))
 		b.S.ReleaseFor(sl, f) // like ListenUDP, a UDP flow holds no balancing slot
 		if err != nil {

@@ -36,16 +36,20 @@ func (l linkState) String() string {
 	return [...]string{"checking", "up", "no internet"}[l]
 }
 
-type slotAddr struct{ ip4, ip6 net.IP }
+// slotAddr is what can change while an adapter keeps its name: its addresses, and its interface index (an adapter
+// that is removed and comes back can get a new one). It is replaced as a whole, so the data path reads it without a lock.
+type slotAddr struct {
+	ip4, ip6 net.IP
+	idx      int
+}
 
 // Slot is a NIC plus its live counters. Counters are atomic so the data path never takes a lock.
 type Slot struct {
-	Name  string
-	Index int
-	kind  nics.Kind // what the adapter is for: only an internet adapter takes part in plain balancing
-	conn  nics.Conn // how it connects, for choosing the default adapter
-	key   string
-	addr  atomic.Pointer[slotAddr]
+	Name string
+	kind nics.Kind // what the adapter is for: only an internet adapter takes part in plain balancing
+	conn nics.Conn // how it connects, for choosing the default adapter
+	key  string
+	addr atomic.Pointer[slotAddr]
 
 	active, total, failed atomic.Int64 // active is across families (idle check on removal)
 	actF                  [2]atomic.Int64
@@ -108,6 +112,9 @@ func (sl *Slot) busy(f Family) int64 {
 	}
 	return n
 }
+
+// ifIndex is the adapter's interface index now, used to force egress through it (0: do not force).
+func (sl *Slot) ifIndex() int { return sl.addr.Load().idx }
 
 func (sl *Slot) ip(f Family) net.IP {
 	a := sl.addr.Load()
@@ -227,7 +234,7 @@ func (s *Scheduler) dropLimit(name string) {
 }
 
 func normAddr(n nics.Nic) *slotAddr {
-	a := &slotAddr{}
+	a := &slotAddr{idx: n.Index}
 	if n.IP != nil {
 		a.ip4 = n.IP.To4()
 	}
@@ -256,7 +263,7 @@ func (s *Scheduler) Update(nics []nics.Nic) {
 			}
 		}
 		if found == nil {
-			sl := &Slot{Name: n.Name, Index: n.Index, kind: n.Kind, conn: n.Conn, key: n.Name, weight: [2]float64{n.Weight, n.Weight}, present: true}
+			sl := &Slot{Name: n.Name, kind: n.Kind, conn: n.Conn, key: n.Name, weight: [2]float64{n.Weight, n.Weight}, present: true}
 			sl.addr.Store(na)
 			sl.setLimit(s.limitFor(n.Name))
 			s.slots = append(s.slots, sl)
@@ -282,8 +289,8 @@ func (s *Scheduler) Update(nics []nics.Nic) {
 				}
 			}
 		}
-		if !old.ip4.Equal(na.ip4) || !old.ip6.Equal(na.ip6) {
-			found.addr.Store(na)
+		if !old.ip4.Equal(na.ip4) || !old.ip6.Equal(na.ip6) || old.idx != na.idx {
+			found.addr.Store(na) // a new index too: forcing egress through the old one would fail every flow
 		}
 	}
 	kept := s.slots[:0]
@@ -319,7 +326,7 @@ func (s *Scheduler) Tick(dt time.Duration) {
 
 	samples := make([]sample, len(slots))
 	for i, sl := range slots {
-		in, out, ok := nics.Octets(sl.Index)
+		in, out, ok := nics.Octets(sl.ifIndex())
 		samples[i] = sample{in, out, ok}
 	}
 

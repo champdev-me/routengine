@@ -16,7 +16,7 @@ func TestTheCommandLineHoldsNothingBackPerAdapter(t *testing.T) {
 	}
 	var out bytes.Buffer
 	p := bytes.Repeat([]byte{1}, 1<<20)
-	if n, err := sl.writePaced(&out, p, true); n != len(p) || err != nil || out.Len() != len(p) {
+	if n, err := sl.writePaced(nil, &out, p, true); n != len(p) || err != nil || out.Len() != len(p) {
 		t.Fatalf("a write goes straight through: %d %v", n, err)
 	}
 	m := &AppMeter{}

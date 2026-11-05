@@ -166,6 +166,32 @@ func TestApplyStartsTheInstallerAndThenQuits(t *testing.T) {
 	}
 }
 
+// The installer is started with admin rights, maybe hours after it was downloaded and checked. A file swapped in
+// meanwhile must never be started: it is checked again just before, and downloaded afresh next time.
+func TestAnInstallerChangedAfterItsCheckIsNeverStarted(t *testing.T) {
+	_, u := release(t, "0.9.0", false)
+	launched := false
+	u.Launch = func(string) error { launched = true; return nil }
+	if err := u.CheckNow(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(u.path, []byte("something else"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	if err := u.Apply(); err == nil || launched {
+		t.Fatalf("a swapped installer was started (err %v)", err)
+	}
+	if i := u.Info(); i.Downloaded || i.Err == "" {
+		t.Fatalf("it must count as not downloaded, and say why: %+v", i)
+	}
+	if err := u.CheckNow(context.Background()); err != nil || !u.Info().Downloaded {
+		t.Fatalf("the next check downloads it again: %v %+v", err, u.Info())
+	}
+	if err := u.Apply(); err != nil || !launched {
+		t.Fatalf("the fresh download is started: %v", err)
+	}
+}
+
 func TestAutomaticInstallWaitsForPermissionAndForRoutingToBeOff(t *testing.T) {
 	_, u := release(t, "0.9.0", false)
 	var launches atomic.Int32

@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.2.2
+
+macOS, Linux and the command line. Windows stays on 1.2.1 for now.
+
+- **macOS: RoutEngine runs on macOS 13 (Ventura) and later again.** The 1.2.1 app and command line needed macOS 26 and closed the moment they started on anything older, even after **Open Anyway**.
+- **macOS: rules and speed limits apply to every app.** RoutEngine looked for the app behind a connection among only some of the running programs, so many apps, browsers among them, were never recognised: their rule and speed limit did nothing, and the window called them "not running".
+- macOS: an app that was already open when RoutEngine started is listed as open, as on Windows and Linux (#1).
+- Balancing: idle connections of an app with a rule no longer make its adapter look busy, so other apps still use it.
+- An adapter that is unplugged while it still has connections, and comes back under a new interface number, works again without a restart.
+- The window on macOS and Linux says "macOS default" for DNS, "Start at sign-in", and the menu bar or tray instead of Windows.
+
 ## 1.2.1
 
 Windows, macOS, Linux and the command line. For macOS and Linux this also brings the 1.2.0 changes below.

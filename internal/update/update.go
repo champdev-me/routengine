@@ -230,6 +230,7 @@ type Updater struct {
 	mu   sync.Mutex
 	info Info
 	path string
+	sum  string // the installer's SHA-256 from the signed manifest, checked again just before it is started
 	done bool
 }
 
@@ -289,7 +290,7 @@ func (u *Updater) CheckNow(ctx context.Context) error {
 	if err != nil {
 		u.info.Err = err.Error()
 	} else {
-		u.path, u.info.Downloaded = path, true
+		u.path, u.sum, u.info.Downloaded = path, strings.ToLower(m.SHA256), true
 	}
 	u.mu.Unlock()
 	u.changed()
@@ -299,7 +300,7 @@ func (u *Updater) CheckNow(ctx context.Context) error {
 // Apply starts the downloaded installer, which replaces the program and starts it again, and then quits.
 func (u *Updater) Apply() error {
 	u.mu.Lock()
-	path, ok := u.path, u.info.Downloaded
+	path, sum, ok := u.path, u.sum, u.info.Downloaded
 	if u.done {
 		u.mu.Unlock()
 		return nil
@@ -307,6 +308,15 @@ func (u *Updater) Apply() error {
 	u.mu.Unlock()
 	if !ok {
 		return errors.New("no update has been downloaded yet")
+	}
+	// It was checked when it was downloaded, maybe hours ago, and is started with admin rights: check it again.
+	if got, err := fileSum(path); err != nil || got != sum {
+		u.mu.Lock()
+		u.path, u.sum, u.info.Downloaded = "", "", false
+		u.info.Err = "the downloaded installer changed since it was checked; it will be downloaded again"
+		u.mu.Unlock()
+		u.changed()
+		return errors.New(u.Info().Err)
 	}
 	launch := u.Launch
 	if launch == nil {
