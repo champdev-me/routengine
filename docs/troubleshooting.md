@@ -66,7 +66,13 @@ If the strip says your license does not cover the new version, the new version i
 
 ## macOS says it cannot verify RoutEngine
 
-The Mac app is not notarized by Apple. The first time, right-click RoutEngine in Applications, choose **Open**, then **Open** again. Or remove the flag in a terminal: `xattr -dr com.apple.quarantine /Applications/RoutEngine.app`. Installing with the `curl ... | sh` command from the README does not trigger the warning.
+The Mac app is not notarized by Apple, and macOS may keep blocking it even after **Open Anyway** in Privacy & Security. Remove the download flag once in Terminal:
+
+```sh
+xattr -dr com.apple.quarantine /Applications/RoutEngine.app
+```
+
+Then open RoutEngine as usual: it asks for your password, and its icon appears in the menu bar. Installing with Homebrew (`brew install --cask champdev-me/tap/routengine`) or with `curl -fsSL https://routengine.net/install.sh | sh -s -- --app` does this for you.
 
 ## No tray icon on Linux
 
