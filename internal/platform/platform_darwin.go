@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"strconv"
 	"strings"
 	"syscall"
 	"time"
@@ -85,7 +86,11 @@ func RelaunchElevated(args []string, hidden bool) error {
 	if HasConsole() {
 		return syscall.Exec("/usr/bin/sudo", append([]string{"sudo", exe}, args...), os.Environ())
 	}
-	cmd := shQuote(exe)
+	// launchctl asuser keeps the root process in this user's login session. Started straight from the password dialog
+	// it ran outside it: its window showed, but macOS (which hosts menu bar icons in Control Centre, per session)
+	// never showed its menu bar icon, nor listed it under Allow in the Menu Bar. `sudo` from a terminal, which stays
+	// in the session, always showed it.
+	cmd := "/bin/launchctl asuser " + strconv.Itoa(os.Getuid()) + " " + shQuote(exe)
 	for _, a := range args {
 		cmd += " " + shQuote(a)
 	}
@@ -101,6 +106,9 @@ func RelaunchElevated(args []string, hidden bool) error {
 // that `sudo routengine install` sets up. That rule matches exactly `routengine tray`, so it only
 // applies when the tray was started without flags.
 func RelaunchTray(args []string, hidden bool) error {
+	if !HasConsole() {
+		startupRelaunch(args) // the app with start at sign-in set up: no password; returns only if it cannot
+	}
 	if len(args) == 1 && args[0] == "tray" {
 		if exe := InstalledExe(); exec.Command("/usr/bin/sudo", "-n", "-l", exe, "tray").Run() == nil {
 			return syscall.Exec("/usr/bin/sudo", []string{"sudo", "-n", exe, "tray"}, os.Environ())

@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.3
+
+macOS app. Linux and the command line are unchanged, rebuilt as 1.2.3. Windows stays on 1.2.1 for now.
+
+- **macOS: the menu bar icon shows again** when RoutEngine starts from the password prompt. Before, it ran without an icon, so a closed window could not be opened again.
+- **macOS: Start at sign-in** in Settings starts RoutEngine in the menu bar when you sign in, and after that it opens from Finder without asking for your password. See [Getting started](docs/getting-started.md#start-at-sign-in).
+
 ## 1.2.2
 
 macOS, Linux and the command line. Windows stays on 1.2.1 for now.

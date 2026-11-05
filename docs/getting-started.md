@@ -16,7 +16,7 @@ You need 64-bit Windows 10 (version 1809 or later) or Windows 11.
 
 1. Download the `.dmg` from [routengine.net](https://routengine.net) and drag RoutEngine to Applications. Or paste `curl -fsSL https://routengine.net/install.sh | sh -s -- --app` into a terminal, or use Homebrew: `brew install --cask champdev-me/tap/routengine`.
 2. The first time, right-click RoutEngine and choose **Open** (see [Troubleshooting](troubleshooting.md#macos-says-it-cannot-verify-routengine)).
-3. Open it. It asks for your password once, to create the virtual adapter. Its icon appears in the menu bar.
+3. Open it. It asks for your password once, to create the virtual adapter. Its icon appears in the menu bar. To skip the password from then on, tick **Start at sign-in** in its Settings.
 
 **Linux** (x86-64 or ARM64)
 
@@ -63,9 +63,11 @@ You can press Start with an empty list: every app's new connections are shared a
 - Closing the window hides it. RoutEngine keeps running in the tray, next to the clock. Click the tray icon to open it again, or use its menu to start, stop or quit.
 - **Quit** from the tray menu removes the virtual adapter and its routes. Windows routing returns to normal at once, and nothing is left behind.
 
-## Start with Windows
+## Start at sign-in
 
-In **Settings** under **Startup**, tick **Start with Windows** to have RoutEngine start in the tray at sign-in. Routing stays off unless you also tick **Start routing when it opens**.
+In **Settings** under **Startup**, tick **Start with Windows** (on macOS and Linux: **Start at sign-in**) to have RoutEngine start in the tray or menu bar when you sign in. Routing stays off unless you also tick **Start routing when it opens**.
+
+On macOS this also lets RoutEngine open from Finder without asking for your password. RoutEngine keeps a copy of itself in `/Library/RoutEngine` and a rule in `/etc/sudoers.d/routengine-app` that lets your account start that copy, and nothing else, as administrator. Untick the box to remove both.
 
 ## Light and dark
 
